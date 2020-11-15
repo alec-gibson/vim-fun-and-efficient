@@ -284,7 +284,7 @@
 	\item \verb+yG+:  yank to the end of the file
 	\item \verb+dt_+:  delete to the next underscore $\ast$
     \end{itemize}
-    Note: \verb+t+ and \verb+T+ act like \verb+f+ and \verb+F+, but they stop one character before the character being search for. These are extremely useful for operating on all the text before a certain target character. \verb+snake_case+, \verb+kebab-case+ and \verb+camelCase+ are used frequently in source code files, so it often works well to make your target character the next underscore, hypen, or a specific capital letter.
+    Note: \verb+t+ and \verb+T+ act like \verb+f+ and \verb+F+, but they stop one character before the character being searched for. These are extremely useful for operating on all the text before a certain target character. \verb+Snake_case+, \verb+kebab-case+ and \verb+camelCase+ are used frequently in source code files, so it often works well to make your target character the next underscore, hypen, or a specific capital letter.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -296,7 +296,7 @@
 \begin{frame}[fragile]
     For most motions, the easiest way to understand the behaviour of Vim edits is to imagine the behaviour of the cursor if you typed the motion without the operator, then the operator will be applied to the characters spanned by that motion. This is why, for example, \verb+dw+ doesn't delete the entire word the cursor is currently inside, but rather deletes from the current cursor position to the beginning of the next word.\\
     \vspace{0.5cm}
-    Sometimes this is not the behaviour we want - sometimes we want to delete the entire word the cursor is currently inside. We will explore how to do this using \enquote{text objects} on the next slide.
+    Sometimes this is not the behaviour we want - sometimes we want to delete the entire word the cursor is currently inside. We will explore how to do this using \enquote{text objects} next.
 \end{frame}
 
 \begin{frame}[fragile]
