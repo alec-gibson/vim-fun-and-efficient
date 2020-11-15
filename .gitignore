@@ -1,4 +1,4 @@
-template.tex
+template.*
 notes.txt
 *.aux
 *.fdb_latexmk
@@ -6,7 +6,6 @@ notes.txt
 *.log
 *.nav
 *.out
-*.pdf
 *.snm
 *.synctex.gz
 *.toc
