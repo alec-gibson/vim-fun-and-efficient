@@ -226,6 +226,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     \begin{block}{Repeating Movements Multiple Times}
 	Most Vim commands allow you to prepend a number to multiply their effects. For example:
 	\begin{itemize}
@@ -238,6 +239,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Keybindings for Editing}
+    \small
     Vim has a number of keybindings for editing the current file's contents. We can start with keybindings which operate on single characters:
     \begin{itemize}
 	\item \verb+x+:  delete the character under the cursor
@@ -249,6 +251,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Operating on Chunks of Text}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item You can only delete one character at a time using \verb+<BS>+
@@ -264,6 +267,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     Operators:
     \begin{itemize}
 	\item \verb+d+:  delete
@@ -275,6 +279,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     Example Edits:
     \begin{itemize}
 	\item \verb+dl+:  delete to the right (same as x)
@@ -288,12 +293,14 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     \begin{block}{Shortcuts for Common Operations}
 	There are also some special editing keybindings to make frequently required editing operations more convenient. Repeating the operator twice means to apply it to the current line (\verb+dd+ deletes the current line, \verb+yy+ yanks the current line, etc.). There are also shortcuts for when you capitalize the operators - \verb+D+ deletes to the end of the line, \verb+Y+ is equivalent to \verb+yy+, etc.
     \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     For most motions, the easiest way to understand the behaviour of Vim edits is to imagine the behaviour of the cursor if you typed the motion without the operator, then the operator will be applied to the characters spanned by that motion. This is why, for example, \verb+dw+ doesn't delete the entire word the cursor is currently inside, but rather deletes from the current cursor position to the beginning of the next word.\\
     \vspace{0.5cm}
     Sometimes this is not the behaviour we want - sometimes we want to delete the entire word the cursor is currently inside. We will explore how to do this using \enquote{text objects} next.
@@ -301,6 +308,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Text Objects}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item If your cursor is in the middle of some text, you have to move to the end to delete it
@@ -310,6 +318,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     examples of text objects:
     \begin{itemize}
 	\item \verb+iw/aw+: inner / around word
@@ -324,6 +333,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     Each of the \enquote{inner} variants of the provided text objects ignore whitespace and surrounding delimiters. The \enquote{around} variants include the surrounding delimiters and whitespace. \\
     \vspace{0.5cm}
     For example, \verb+di"+ will delete the contents of the quotation marks the cursor is currently inside, but will not touch the quotation marks themselves. In contrast, \verb+da"+ will delete the contents of the quotation marks, the quotation marks, and surrounding whitespace. \\
@@ -333,6 +343,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Pasting, or \enquote{Putting}}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item We don't have any way to copy and paste
@@ -345,6 +356,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Searching}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item This workflow doesn't include any way to search the current file
@@ -360,6 +372,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Undo and Redo}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item We don't have a way to undo mistakes
@@ -374,6 +387,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Repeating Edits}
+    \small
     \begin{block}{Problem}
 	\begin{itemize}
 	    \item Repeated edits need to be executed manually each time
@@ -388,11 +402,13 @@
 
 \begin{frame}[fragile]
     \frametitle{How to Find Help}
+    \small
     Vim comes with extensive documentation built-in, accessible using the \verb+:h+ command (short for \verb+:help+, which works too if you want to be verbose). If you want to look up what a particular keybinding does, you can run \verb+:h {key}<CR>+ to look up the corresponding help file. If you don't know the name of the help file you are looking for, you can run \verb+:helpgrep {phrase}<CR>+ to search all Vim's help files for a particular phrase. Helpgrep fills Vim's \enquote{quickfix} list with its results - we will discuss the quickfix list more later, but for now just know you can run \verb+:cnext<CR>+ to go to the next result and \verb+:cprev<CR>+ to go to the previous result.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{How to Learn Vim}
+    \small
     If you want more thorough materials to learn Vim, you can start by running \verb+vimtutor+ in your terminal (it usually comes with your installation of Vim). After completing vimtutor, you can read Vim's user manual for a lengthy but readable guide to all of Vim's most important features. To read the user manual, run \verb+:h user-manual<CR>+ in Vim.
 \end{frame}
 
@@ -404,10 +420,12 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     Now that we've covered most of the basic features of Vim, you have seen one of the reasons many developers swear by it as their editor of choice - the ability to modularly compose edits using operators and navigation keybindings gives you a very terse language for quickly editing documents. However, there are probably still some people wondering \textbf{why would anyone want to use this editor}? Hopefully the features I discuss in this section will help make a stronger case in favour of Vim.
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     To start with, I'll cover Command-Line Mode and Visual Mode to round out our understanding of Vim's modes. Then we'll get into some of (what I consider) Vim's killer features - the jump list, registers, macros, \verb+:substitute+, \verb+:global+, and the undo tree. By the end of this section I'll have explained enough of Vim's features that, if you became fluent in their usage, you could edit single files in Vim quite efficiently. \\
     \vspace{0.5cm}
     After this section, we'll cover ways to manage editing multiple files in a single Vim session, then we'll finish up with a short introduction to Vim configuration.
@@ -415,6 +433,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Command-Line Mode}
+    \small
     Many of Vim's features are accessible using keybindings in normal mode. However, we can also access features by writing out the names of commands to execute using Vim's command-line mode. Press \verb+:+ to enter command-line mode, then you can type in the name of a command and hit \verb+<CR>+ to execute it and return to normal mode. If you change your mind, you can press \verb+<ESC>+ to go back to normal mode without executing a command.\\
     \vspace{0.5cm}
     \begin{block}{We've Seen This Before}
@@ -423,6 +442,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     \begin{block}{How do I See My Command-Line History?}
 	When you are in command-line mode, you can press the up and down arrow keys (or \verb+<C-p>+ and \verb+<C-n>+, emacs style) to select previously run commands. You can view your command-line history by typing \verb+q:+ in normal mode. This will open a window showing past commands you've run, where you can edit a previous command, then execute the edited version using \verb+<CR>+.
     \end{block}
@@ -430,6 +450,7 @@
 
 \begin{frame}[fragile]
     \frametitle{Visual Mode}
+    \small
     One of the disadvantages of Vim's operator + motion syntax for defining an edit, is that you need to decide on the appropriate motion for an edit on the spot after already commiting to an operator. If you would prefer to make your selection of text to operate on first, then specify the operator after, Vim contains three different \enquote{visual modes} which allow you to do just that.
     \begin{block}{Character-Wise Visual Mode}
 	The simplest visual mode Vim offers is character-wise visual mode, often just refered to as visual mode. You can enter this visual mode by pressing \verb+v+, and exit to normal mode using \verb+<ESC>+. While in any visual mode, your current text selection will be highlighted. You can move the cursor to change where the visual selection ends, or press \verb+o+ to instead change where the selection starts. After making your selection you can use operators on the selected text, like \verb+d+ to delete it, or \verb+y+ to yank it.
@@ -437,6 +458,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     \begin{block}{Line-Wise Visual Mode}
 	You can press \verb+V+ (capital V) to enter line-wise visual mode - a variant of visual mode which only selects entire lines. I often use this version of visual mode to delete or yank data which is formatted into separate lines, such as a function, a JSON object, or a chunk of YAML. It is also useful for constraining the scope of some command-line commands, something we'll explore more when we discuss the \verb+:substitute+ command.
     \end{block}
@@ -447,6 +469,7 @@
 
 \begin{frame}[fragile]
     \frametitle{The Jump List}
+    \small
     This is a simple feature, but it is \textbf{constantly} useful, and I wish every text editor had it. Vim keeps track of every time you use a motion to move a significant distance, and stores these locations you've jumped to in its \enquote{jump list}. You can view this jump list by running the \verb+:jumps+ command.\\
     \vspace{0.5cm}
     The useful part is that Vim lets you jump back to older locations you've been using \verb+<C-o>+ and newer locations using \verb+<C-i>+. This means for example, if you created a tags file using ctags, you could jump to a function's definition using \verb+<C-]>+. Then, using the jump list you could use \verb+<C-o>+ to jump back to where the function is called when you're done looking at it. I use this functionality constantly when reading new code I haven't seen before.\\
@@ -456,26 +479,32 @@
 
 \begin{frame}[fragile]
     \frametitle{Registers}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Macros}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{:substitute}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{:global}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{:normal}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{The Undo Tree}
+    \small
 \end{frame}
 
 \section{Managing and Editing Multiple Files}
@@ -487,22 +516,27 @@
 
 \begin{frame}[fragile]
     \frametitle{Buffers, Windows and Tabs}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Argument, Location and Quickfix Lists}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Grep and Vimgrep}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Cdo, Ldo, Argdo}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Finding Files Quickly}
+    \small
     NOTE: discuss fuzzy finder and file tree plugins here
 \end{frame}
 
@@ -515,36 +549,44 @@
 
 \begin{frame}[fragile]
     \frametitle{Setting Options}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Keybindings}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Abbreviations}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Functions}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Custom Commands}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Automatic Commands}
+    \small
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Plugins}
+    \small
 \end{frame}
 
 \section{Links for Further Learning}
 
 \begin{frame}[fragile]
     \frametitle{Links for Further Learning}
+    \small
 \end{frame}
 
 \section{Goodbye}
