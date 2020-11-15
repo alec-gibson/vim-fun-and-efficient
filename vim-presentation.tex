@@ -282,7 +282,9 @@
 	\item \verb+dw+:  delete word
 	\item \verb+c$+:  change to the end of the line
 	\item \verb+yG+:  yank to the end of the file
+	\item \verb+dt_+:  delete to the next underscore $\ast$
     \end{itemize}
+    Note: \verb+t+ and \verb+T+ act like \verb+f+ and \verb+F+, but they stop one character before the character being search for. These are extremely useful for operating on all the text before a certain target character. \verb+snake_case+, \verb+kebab-case+ and \verb+camelCase+ are used frequently in source code files, so it often works well to make your target character the next underscore, hypen, or a specific capital letter.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -304,7 +306,7 @@
 	    \item If your cursor is in the middle of some text, you have to move to the end to delete it
 	\end{itemize}
     \end{block}
-    Up until now, the motions we apply to operators have all also been normal mode navigation keybindings. This is not always the case. After typing the operator but before the motion, Vim is in a special mode called \enquote{operator-pending} mode. While in operator-pending mode, Vim can accept certain keybindings which would not otherwise work in normal mode. Text objects are an example of keybindings for operator-pending mode. These keybindings let operators work on an area of text the cursor is already inside - for example the current word or the surrounding set of quotation marks.
+    Up until now, the motions we have applied to operators have also been normal mode navigation keybindings. This is not always the case. After typing the operator but before the motion, Vim is in a special mode called \enquote{operator-pending} mode, and this mode has some of its own unique keybindings. Text objects are an example of keybindings for operator-pending mode. These keybindings let operators work on an area of text the cursor is already inside - for example the current word or the surrounding set of quotation marks.
 \end{frame}
 
 \begin{frame}[fragile]
