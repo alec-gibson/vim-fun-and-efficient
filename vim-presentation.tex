@@ -451,7 +451,8 @@
 \begin{frame}[fragile]
     \frametitle{Visual Mode}
     \small
-    One of the disadvantages of Vim's operator + motion syntax for defining an edit, is that you need to decide on the appropriate motion for an edit on the spot after already commiting to an operator. If you would prefer to make your selection of text to operate on first, then specify the operator after, Vim contains three different \enquote{visual modes} which allow you to do just that.
+    One of the disadvantages of Vim's operator/motion syntax for defining an edit, is that you need to decide on the appropriate motion for an edit on the spot after already commiting to an operator. If you would prefer to make your selection of text to operate on first, then specify the operator after, Vim contains three different \enquote{visual modes} which allow you to do just that.
+    \vspace{0.5cm}
     \begin{block}{Character-Wise Visual Mode}
 	The simplest visual mode Vim offers is character-wise visual mode, often just refered to as visual mode. You can enter this visual mode by pressing \verb+v+, and exit to normal mode using \verb+<ESC>+. While in any visual mode, your current text selection will be highlighted. You can move the cursor to change where the visual selection ends, or press \verb+o+ to instead change where the selection starts. After making your selection you can use operators on the selected text, like \verb+d+ to delete it, or \verb+y+ to yank it.
     \end{block}
@@ -480,16 +481,100 @@
 \begin{frame}[fragile]
     \frametitle{Registers}
     \small
+    Instead of using the system clipboard, Vim uses a large collection of \enquote{registers} to store text for use elsewhere. Many operators can be prefixed with a register name, to make them use that register. To tell Vim you are specifying a register, you start with \verb+"+ - a quotation mark - followed by a single key for the register name. For example:
+    \begin{itemize}
+	\item \verb+"ayy+: yank the current line, and put it into register \verb+a+
+	\item \verb+"add+: delete the current line, and put it into register \verb+a+
+	\item \verb+"ap+: insert the contents of register \verb+a+ at the cursor's location
+    \end{itemize}
+    You can also use a capital letter to tell Vim to append to a register instead of replacing the register's contents. Many of the non-character keys on the keyboard are also used for registers with special purposes (\verb+"+ is the default register, \verb+_+ is no register, \verb|+| can be configured to use the system clipboard, etc). You can learn more about these by reading \verb+:help registers+.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Macros}
     \small
+    Vim allows you to execute arbitrary strings of characters stored in a register as a macro! For an easy way to record a macro, Vim provides a convenient keybinding - \verb+q+ - which allows you record a sequence of keypresses into a register. For example:
+    \begin{itemize}
+	\item \verb+qadwq+: record the characters \verb+dw+ into register \verb+a+
+	\item \verb+qAdwq+: record the characters \verb+dw+ into register \verb+a+, appending to the current contents of the register
+    \end{itemize}
+    \vspace{0.5cm}
+    Once you have recorded a macro into a register, you can the execute the macro using the \verb+@+ keybinding, followed by the name of the register to execute:
+    \begin{itemize}
+	\item \verb+@a+: execute the contents of register \verb+a+ as a macro
+	\item \verb+@@+: execute the last executed macro again
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \small
+    \begin{block}{Repeating Macros}
+	Like most of Vim's commands, you can prefix the execution of a macro with a number to specify the number of times to repeat that macro. If Vim reaches the end of the current file while executing a macro, it stops executing it (this is useful, because you can include a search in your macro to find the next place to execute it).
+    \end{block}
+    \vspace{0.5cm}
+    Because macros just execute the contents of a register, there are many ways to record a macro - you don't have to use \verb+q+! If you want, you could write the macro in your current file, then yank it into a register to execute it. Or you could record part of your macro in register \verb+a+, stop recording, then append to that same register using \verb+qA+. Vim's macro system is extremely flexible, and is a good way for repeating edits which are too complex to use the \verb+.+ key.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{:substitute}
     \small
+    One of the more common features people use in a text editor is the ability to search for and replace a sequence of characters. To do this, Vim provides the \verb+:substitute+ command which has the following syntax:
+    \vspace{0.5cm}
+    \begin{block}{:substitute syntax}
+	\verb+:{range}s[ubstitute]/{pattern}/{replacement}/{flags}+
+    \end{block}
+    \vspace{0.5cm}
+    This syntax provides a great deal of flexibility, allowing you to match strings using a regular expression, use matched subexpressions in the pattern's replacement, and limit what lines to perform the substitution on. But before we get into these more advanced (but very much worth learning) features, we'll explore some examples of basic \verb+:substitute+ usage.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{:substitute examples}
+    \small
+    \begin{itemize}
+	\item \verb+:s/asdf/qwerty+: replace the first occurence of \verb+asdf+ with \verb+qwerty+ on the current line
+	\item \verb+:s/asdf/qwerty/g+: replace every occurence of \verb+asdf+ with \verb+qwerty+ on the current line (the \verb+g+ flag means replace every occurence instead of just the first one)
+	\item \verb+:1,10s/asdf/qwerty/g+: replace every occurence of \verb+asdf+ with \verb+qwerty+ on lines 1 to 10 of the current file
+	\item \verb+:%s/asdf/qwerty/g+: replace every occurence of \verb+asdf+ with \verb+qwerty+ on every line in the current file (Vim uses the range \verb+%+ as a synonym for \verb+1,$+, meaning every line in the current file)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Patterns}
+    \small
+    One of the best things about Vim's \verb+:substitute+ command is that it doesn't just match verbatim strings of characters, but instead uses a full system of regular expressions. Obviously, outlining all the regular expression rules would be too much for this presentation, but I'll list some of the features I use most often (this assumes the \enquote{magic} option is set, which effects what characters need to be escaped to take on a special meaning):
+    \begin{itemize}
+	\item \verb+.+: any character
+	\item \verb+*+: any number of repetitions
+	\item \verb+^+: the start of a line
+	\item \verb+$+: the end of a line
+	\item \verb+\(\)+: group contents into a subexpression (this subexpression can be used with \verb+*+, and can be referenced in the pattern's replacement)
+    \end{itemize}
+    There is much more that you can do with Vim's regular expression system. To learn more, read \verb+:help pattern+.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Using Matched Patterns in the Replacement}
+    \small
+    Often you want to perform a substitution, but provide some context so that you avoid the pattern matching false-positives. You can do this using subexpressions in your \verb+:substitute+ command's pattern. After using a pattern containing subexpressions, you can reference them in the replacement using \verb+\0+ to mean the whole matched pattern, and \verb+\{num}+ to mean the \verb+{num}+th subexpression. Here is an example which hopefully illustrates how useful this can be:\\
+    \vspace{0.5cm}
+    \verb+:%s/func \(.*\)(/func (s *MyStruct) \1(+\\
+    \vspace{0.5cm}
+    This command's pattern matches \enquote{func }, followed by an arbitrary string of characters (captured in a subexpression), followed by an opening bracket --- this is the pattern followed by a function definition in Golang. The replacement takes the function name, and replaces its prefix with \enquote{func (s *MyStruct) }. This substitute command could be used to turn all the functions in a file into methods for a struct you defined!
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Performing Selective Substitutions}
+    \small
+    Sometimes I find that I want to perform a substitution only in a select portion of a file. For example, I might want to rename a variable inside a single function, but not touch variables of the same name in other functions. I have already shown that you can restrict \verb+:substitute+ by providing \verb+{start},{end}+ as the range. I never do this because Vim works so nicely with line-wise visual mode for setting ranges. Just select the lines you want to use as the range for your \verb+:substitute+, then press \verb+:+ and Vim will automatically insert \verb+'<,'>+ as the range. This range means the current visually selected lines, and it uses a pair of \enquote{marks} to denote these.
+    \begin{block}{Marks}
+	Marks are a feature Vim uses to store locations in files. I am going to annoy some Vim users by skipping discussing their usage in this talk, purely to save time and because I don't use them much personally. A good introduction to marks is provided in Vim's user manual, and you can read it by running \verb+:help 03.10+.
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{block}{One More Substitute Trick}
+	You have seen the \verb+g+ flag for substitutions to make them replace every occurence, instead of just the first one on each line. Another flag I use frequently is \verb+c+, which makes \verb+:substitute+ ask for permission before performing each substitution. This is great if you only want to perform the substitution in some cases, and you're feeling too lazy to define a more complex regular expression to only match those specific cases.
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
