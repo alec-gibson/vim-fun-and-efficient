@@ -36,6 +36,15 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \frametitle{Presentation Details}
+    \begin{itemize}
+	\item This presentation was created in Neovim 0.5.0 using the Beamer Latex package
+	\item The source code is available at \url{https://github.com/alec-gibson/vim-fun-and-efficient}
+	\item For discussions about Vim, please post in the company \#vim-geeks slack channel!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
     \frametitle{Disclaimer}
     \small The target audience of this talk is not seasoned users of Vi-family editors (though you are more than welcome to stay if this describes you). Many of the features I will refer to as Vim features were Vi features first. I never used Vi, and clarifying when features were introduced in Vim's lineage is outside the scope of this talk. So for the purpose of this talk they are Vim features.\\
     \vspace{0.5cm}
@@ -43,12 +52,11 @@
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{About This Presentation}
-    \begin{itemize}
-	\item This presentation was created in Neovim 0.5.0 using the Beamer Latex package
-	\item The source code is available at \url{https://github.com/alec-gibson/vim-fun-and-efficient}
-	\item For discussions about Vim, please post in the company \#vim-geeks slack channel!
-    \end{itemize}
+    \frametitle{Goal}
+    \small
+    After learning Vim's basics in university, I decided to start using it full-time when I started working at BlueCat at the beginning of May. At first, my workflow was quite inefficient --- all my knowledge came from vimtutor, and several Reddit posts I had read. Since then, my knowledge of Vim has expanded massively, and my editing has become much more fluent, so I wanted to share what I've learned with other interested developers.\\
+    \vspace{0.5cm}
+    This talk is meant to make it easier for other developers to make the same transition as me, from a standard point-and-click text editor or IDE to Vim. I try to cover many of Vim's core features, so that you have some idea what it is capable of (which is a considerable amount) instead of immediately reaching for plugins. Where possible, I try to mention what features I have found particularly useful, and to outline why I feel learning Vim has been a net positive to my work as a developer. No section of this talk is exhaustive - Vim's feature set is so huge that covering any topic exhaustively would take forever and be very boring. Instead I try to cover the most important stuff, and reference documentation so you can learn the rest at your leisure.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -95,7 +103,7 @@
 \begin{frame}[fragile]
     \centerline{\large And most importantly....}
     \vspace{0.5cm}
-    \small \textbf{If you are not already using them, Vim's keybindings can teach you a new, more efficient way to edit text.}\\
+    \small \textbf{If you have not used them before, learning Vim's keybindings will provide you with an extremely efficient way to edit text files.}\\
 \end{frame}
 
 \begin{frame}[fragile]
@@ -105,9 +113,10 @@
     \begin{itemize}
 	\item Spend a large amount of your day editing plain text files (common in software development and IT)
 	\item Make frequent use of your terminal emulator
-	\item Appreciate the value of keyboard shortcuts for everything
+	\item Appreciate the value of keyboard shortcuts
 	\item Like to customize your tools to suit your workflow
-	\item \textbf{And especially} if you spend too much time making boring, repetitive edits
+	\item Want to make an investment in learning a single editor which works for every programming language
+	\item \textbf{And especially} if you need a way to automate performing boring, repetitive edits to file
     \end{itemize}
 \end{frame}
 
@@ -156,7 +165,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
-    \small This is about as much of Vim as some people ever learn. It's enough to edit config files on servers over SSH (albeit slowly), or to use while setting up a minimal Linux installation on a PC. \\
+    \small This is enough Vim to edit config files on servers over SSH (albeit slowly), or to use while setting up a minimal Linux installation on a PC. \\
     \vspace{0.5cm}
     However, if this was the most efficient way to edit files in Vim, \textbf{the editor would have died out long ago}.
 \end{frame}
@@ -257,7 +266,7 @@
 	    \item You can only delete one character at a time using \verb+<BS>+
 	\end{itemize}
     \end{block}
-    Operating on chunks of text is where Vim's keybinding system really shines. Vim separates these edits into keybindings it calls \enquote{operators} and \enquote{motions}.
+    Operating on chunks of text is a place where Vim's keybindings shine. Vim separates these edits into keybindings it calls \enquote{operators} and \enquote{motions}.
     \begin{block}{Operators}
 	Operators are the verbs of the edit - they are things like \enquote{delete}, \enquote{change}, \enquote{yank} (Vim language for \enquote{copy}), \enquote{indent}, \enquote{format}, etc.
     \end{block}
@@ -289,7 +298,7 @@
 	\item \verb+yG+:  yank to the end of the file
 	\item \verb+dt_+:  delete to the next underscore $\ast$
     \end{itemize}
-    Note: \verb+t+ and \verb+T+ act like \verb+f+ and \verb+F+, but they stop one character before the character being searched for. These are extremely useful for operating on all the text before a certain target character. \verb+Snake_case+, \verb+kebab-case+ and \verb+camelCase+ are used frequently in source code files, so it often works well to make your target character the next underscore, hypen, or a specific capital letter.
+    $\ast$ Note: \verb+t+ and \verb+T+ act like \verb+f+ and \verb+F+, but they stop one character before the character being searched for. These are extremely useful for operating on all the text before a certain target character. \verb+Snake_case+, \verb+kebab-case+ and \verb+camelCase+ are used frequently in source code files, so it often works well to make your target character the next underscore, hypen, or a specific capital letter.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -351,7 +360,7 @@
     \end{block}
     We've seen how to yank text already using the \verb+y+ operator. Now all you need to do to \enquote{put} it (Vim language for pasting) is to press \verb+p+.\\
     \vspace{0.5cm}
-    It is important to know, deleting in Vim does not just delete the chosen text, but behaves more like the \enquote{cut} operation in other popular editors. That is to say, the deleted text will be the next thing \enquote{put} when the user presses \verb+p+. We will look at ways to get around this later in the Vim Power Tools section, when we discuss registers.
+    It is important to know, deleting in Vim does not just delete the chosen text, but behaves more like the \enquote{cut} operation in other popular editors. That is to say, when you use the \verb+d+ operator, the deleted text will be the next thing \enquote{put} when the user presses \verb+p+.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -443,7 +452,7 @@
 
 \begin{frame}[fragile]
     \small
-    \begin{block}{How do I See My Command-Line History?}
+    \begin{block}{How Do I See My Command-Line History?}
 	When you are in command-line mode, you can press the up and down arrow keys (or \verb+<C-p>+ and \verb+<C-n>+, emacs style) to select previously run commands. You can view your command-line history by typing \verb+q:+ in normal mode. This will open a window showing past commands you've run, where you can edit a previous command, then execute the edited version using \verb+<CR>+.
     \end{block}
 \end{frame}
@@ -521,7 +530,7 @@
     One of the more common features people use in a text editor is the ability to search for and replace a sequence of characters. To do this, Vim provides the \verb+:substitute+ command which has the following syntax:
     \vspace{0.5cm}
     \begin{block}{:substitute syntax}
-	\verb+:{range}s[ubstitute]/{pattern}/{replacement}/{flags}+
+	\verb+:[range]s[ubstitute]/{pattern}/{replacement}/[flags]+
     \end{block}
     \vspace{0.5cm}
     This syntax provides a great deal of flexibility, allowing you to match strings using a regular expression, use matched subexpressions in the pattern's replacement, and limit what lines to perform the substitution on. But before we get into these more advanced (but very much worth learning) features, we'll explore some examples of basic \verb+:substitute+ usage.
@@ -556,14 +565,14 @@
     \frametitle{Using Matched Patterns in the Replacement}
     \small
     Often you want to perform a substitution, but provide some context so that you avoid the pattern matching false-positives. You can do this using subexpressions in your \verb+:substitute+ command's pattern. After using a pattern containing subexpressions, you can reference them in the replacement using \verb+\0+ to mean the whole matched pattern, and \verb+\{num}+ to mean the \verb+{num}+th subexpression. Here is an example which hopefully illustrates how useful this can be:\\
-    \vspace{0.5cm}
-    \verb+:%s/func \(.*\)(/func (s *MyStruct) \1(+\\
-    \vspace{0.5cm}
+    \begin{verbatim}
+    :%s/func \(.*\)(/func (s *MyStruct) \1(
+    \end{verbatim}
     This command's pattern matches \enquote{func }, followed by an arbitrary string of characters (captured in a subexpression), followed by an opening bracket --- this is the pattern followed by a function definition in Golang. The replacement takes the function name, and replaces its prefix with \enquote{func (s *MyStruct) }. This substitute command could be used to turn all the functions in a file into methods for a struct you defined!
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Performing Selective Substitutions}
+    \frametitle{Restricting a Substitution's Range}
     \small
     Sometimes I find that I want to perform a substitution only in a select portion of a file. For example, I might want to rename a variable inside a single function, but not touch variables of the same name in other functions. I have already shown that you can restrict \verb+:substitute+ by providing \verb+{start},{end}+ as the range. I never do this because Vim works so nicely with line-wise visual mode for setting ranges. Just select the lines you want to use as the range for your \verb+:substitute+, then press \verb+:+ and Vim will automatically insert \verb+'<,'>+ as the range. This range means the current visually selected lines, and it uses a pair of \enquote{marks} to denote these.
     \begin{block}{Marks}
@@ -572,6 +581,7 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \small
     \begin{block}{One More Substitute Trick}
 	You have seen the \verb+g+ flag for substitutions to make them replace every occurence, instead of just the first one on each line. Another flag I use frequently is \verb+c+, which makes \verb+:substitute+ ask for permission before performing each substitution. This is great if you only want to perform the substitution in some cases, and you're feeling too lazy to define a more complex regular expression to only match those specific cases.
     \end{block}
@@ -580,16 +590,47 @@
 \begin{frame}[fragile]
     \frametitle{:global}
     \small
+    When using macros, a fairly common workflow is to search for the next place to execute your macro, and include this search in the macro recording so that when you execute the macro many times, it automatically finds its next place to execute each time. A similar workflow can also be performed with the \verb+:global+ command, which uses the following syntax:\\
+    \vspace{0.5cm}
+    \begin{block}{:global syntax}
+	\verb+:[range]g[lobal]/{pattern}/[command]+
+    \end{block}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{:normal}
+    \frametitle{:global commands}
     \small
+    \verb+:global+ is extremely flexible --- it just runs the command you specify on matches for your provided pattern, using the same regular expression syntax as the \verb+:substitute+ command. If you don't provide a command, global uses \verb+:p[rint]+ by default, which prints the matching lines for you to view them. You could use \verb+:d[elete]+ to delete matching lines, or even \verb+:s[ubstitute]+ to perform a substitution only on lines which match the provided pattern. For the ultimate in flexibility, you can use the \verb+:norm[al]+ command to execute a string of keybindings in normal mode on matching lines.\\
+    \vspace{0.5cm}
+    \begin{block}{:global!}
+	If you want to run a command starting at the beginning of lines which match your pattern, just use \verb+global!+ instead of \verb+global+.
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{:normal and :execute}
+    \small
+    The \verb+:normal+ command provides a way for you to use normal mode keybindings in command-line mode. This is useful for some commands which run other command-line commands, such as \verb+:global+, or \verb+:cdo+ (which we'll learn about in the next section).\\
+    \vspace{0.5cm}
+    One difficulty with the \verb+:normal+ command is when you want to use a special character, such as \verb+<ESC>+ or \verb+<CR>+. When you want to do this, just wrap it in an \verb+:execute+ command, which takes a string containing a command and executes it in command-line mode, and allows you to escape special characters. For example:\\
+    \begin{verbatim}
+    :exe "norm ifunc \<ESC>A{"
+    \end{verbatim}
+    This command enters insert mode, types \enquote{func }, hits \verb+<ESC>+ to go back to normal mode, then inserts an opening curly brace at the end of the line.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{The Undo Tree}
     \small
+	Here's a perilous situation which can occur in almost any editor: you edit a file for a while, and after making your edits, you realize you deleted something which you should not have deleted. To get that deleted text back, you \enquote{undo} multiple times, intending to copy the deleted text, so you can \enquote{redo} your changes and paste. However, you accidentally edit the file while in the older state! Now you can't redo your changes, and you've just accidentally lost all the work you had done!\\
+	\vspace{0.5cm}
+	Thankfully, Vim keeps track of your entire \enquote{undo tree} to avoid exactly this issue. The easiest way to use this feature is using the \verb+g-+ and \verb|g+| normal mode keybindings. These keybindings go to \enquote{older} and \enquote{newer} text states respectively, regardless of whether there were \enquote{undo} operations in the middle. In the situation I outlined, even though you'd performed an edit after undo-ing, you can just press \verb+g-+ to go to older text states until you have your edits back.
+\end{frame}
+
+\begin{frame}
+	\begin{block}{Making the Undo Tree More Usable}
+	I find the full power of Vim's undo tree is really unlocked with plugins for visualizing it, so you can easily walk to any node in the undo tree. The one I use is \url{https://github.com/mbbill/undotree}.
+	\end{block}
 \end{frame}
 
 \section{Managing and Editing Multiple Files}
