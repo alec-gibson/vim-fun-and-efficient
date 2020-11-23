@@ -48,7 +48,7 @@
     \frametitle{Disclaimer}
     \small The target audience of this talk is not seasoned users of Vi-family editors (though you are more than welcome to stay if this describes you). Many of the features I will refer to as Vim features were Vi features first. I never used Vi, and clarifying when features were introduced in Vim's lineage is outside the scope of this talk. So for the purpose of this talk they are Vim features.\\
     \vspace{0.5cm}
-    Furthermore, almost everything I say in this talk applies equally to Neovim as it does to Vim. Neovim is a fork of Vim with slightly tweaked default options, no Benevolent Dictator For Life, and which tends to implement new features more quickly. I personally use Neovim instead of Vim, but both operate extremely similarly.
+    Furthermore, I personally use Neovim, not Vim. Neovim is a fork of Vim with slightly tweaked default options, no Benevolent Dictator For Life, and which tends to implement new features more quickly. Both operate almost identically, but if you want to be guaranteed to be able to follow along with everything I say in this talk, you might want to use Neovim as well. I noticed on Sunday that backspace works as you would expect in insert mode when you use Neovim, but has some different eccentric behaviour in Vim. This can be easily fixed by setting the `backspace' option, but if you don't want to deal with it, you can just use Neovim instead.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -156,11 +156,14 @@
 \begin{frame}[fragile]
     \frametitle{Basic Vim Editing}
     \small
-    The simplest (though probably the slowest) way to navigate a file in Vim is using the arrow keys. To make changes in the current file, press \verb+i+ to enter \enquote{insert} mode. In insert mode, keys behave the way they would in any other text editor - letter and number keys insert their corresponding characters, and \verb+<BS>+ (backspace) deletes the previous character. \\
+    The simplest (though probably the slowest) way to navigate a file in Vim is using the arrow keys. To make changes in the current file, press \verb+i+ to enter \enquote{insert} mode. In insert mode, keys behave the way they would in any other text editor - letter and number keys insert their corresponding characters, and \verb+<BS>+ (backspace) deletes the previous character.$\ast$ \\
     \vspace{0.5cm}
     If you want to run any of the file operations from the previous slide, just press \verb+<ESC>+ (escape) to return to normal mode first.
     \begin{block}{Using Your Mouse in Vim!?}
 	It's true, Vim supports using your mouse. Just set the required option by typing \verb+:set mouse=a<CR>+ in normal mode.
+    \end{block}
+    \begin{block}{$\ast$ Why Doesn't Backspace Work?}
+	Vim's default backspace behaviour in insert mode is unintuitive. You can make it behave the way you probably expect by typing \verb+:set bs=2<CR>+. Sometimes it will already work, because many Linux distros ship a default Vim configuration which sets this option.
     \end{block}
 \end{frame}
 
