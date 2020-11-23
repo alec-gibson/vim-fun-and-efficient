@@ -39,7 +39,7 @@
     \frametitle{Presentation Details}
     \begin{itemize}
 	\item This presentation was created in Neovim 0.5.0 using the Beamer Latex package
-	\item The source code is available at \url{https://github.com/alec-gibson/vim-fun-and-efficient}
+	\item The source code is available \href{https://github.com/alec-gibson/vim-fun-and-efficient}{in a repo on my GitHub}
 	\item For discussions about Vim, please post in the company \#vim-geeks slack channel!
     \end{itemize}
 \end{frame}
@@ -620,6 +620,15 @@
 \end{frame}
 
 \begin{frame}[fragile]
+	\frametitle{Interacting With The Shell}
+	\small
+	Vim supports calling external commands using the \verb+:!{cmd}+ command. For example you could run \verb+!ls+ to run \verb+ls+ in a piped non-interactive shell and view the contents of the current directory. When running shell commands, Vim lets you reference the current filename using \verb+%+.\\
+	\vspace{0.5cm}
+	If you want to read the output of a shell command into the current file, you can run \verb+:r[ead] !{cmd}+. You can also filter several lines of the current buffer through an external command using \verb+:{range}!{cmd}+. You can use line-wise visual mode to select a range of lines to run a filter on like with \verb+:substitute+, or you can use the normal mode operator \verb+!+ for running a filter on an area of text defined using a motion. \verb+!!+ is a shortcut for running a filter command on the current line.
+
+\end{frame}
+
+\begin{frame}[fragile]
     \frametitle{The Undo Tree}
     \small
 	Here's a perilous situation which can occur in almost any editor: you edit a file for a while, and after making your edits, you realize you deleted something which you should not have deleted. To get that deleted text back, you \enquote{undo} multiple times, intending to copy the deleted text, so you can \enquote{redo} your changes and paste. However, you accidentally edit the file while in the older state! Now you can't redo your changes, and you've just accidentally lost all the work you had done!\\
@@ -629,7 +638,7 @@
 
 \begin{frame}
 	\begin{block}{Making the Undo Tree More Usable}
-	I find the full power of Vim's undo tree is really unlocked with plugins for visualizing it, so you can easily walk to any node in the undo tree. The one I use is \url{https://github.com/mbbill/undotree}.
+		I find the full power of Vim's undo tree is really unlocked with plugins for visualizing it, so you can easily walk to any node in the undo tree. The one I use is \href{https://github.com/mbbill/undotree}{undotree by mbbill}.
 	\end{block}
 \end{frame}
 
@@ -641,29 +650,135 @@
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Buffers, Windows and Tabs}
-    \small
+	\frametitle{Multiple Files in Vim}
+	\small
+	The following summary of Vim's terminology regarding viewing files can be found by running \verb+:help window+:
+	\begin{itemize}
+		\item A buffer is the in-memory text of a file.
+		\item A window is a viewport on a buffer.
+		\item A tab page is a collection of windows.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Argument, Location and Quickfix Lists}
+    \frametitle{Buffers}
     \small
+	Again quoting from Vim's help files: \enquote{A buffer is a file loaded into memory for editing.  The original file remains unchanged until you write the buffer to the file.}\\
+	\vspace{0.5cm}
+	When you open a new file in Vim, a new buffer is created for that file and made active, and the current buffer is hidden. You can run \verb+:ls+ to view a list of buffers together with their state and buffer numbers. Then to switch to another buffer, run \verb+:b[uffer] {num}+ with the buffer number you want to switch to.\\
+	\vspace{0.5cm}
+	NOTE: I rarely use \verb+:e+ for opening files, and I rarely use \verb+:b+ for switching buffers. Often if I know I'll want to edit a file again, I keep it open in a split window or a tab page. I'll discuss my workflow for switching to files I don't already have open in splits or tabs when I discuss \textbf{Finding Files Quickly} at the end of this section.
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Grep and Vimgrep}
+    \frametitle{Windows}
     \small
+	All of Vim's window management commands are prefixed with \verb+<C-w>+. By default, you can use \verb+<C-w> s+ to split your current window into two, one on-top of the other, and \verb+<C-w> v+ to split your window side-by-side. You can also perform these operations in command-line mode using \verb+:sp[lit]+ and \verb+:vs[plit]+. To switch between open windows, you can use \verb+<C-w> [hjkl]+ to switch to the window in the indicated direction. To round out the basic window management commands, you can use \verb+<C-w> c+ to close the current window, and \verb+<C-w> o+ to close every window but the current one.\\
+	\vspace{0.5cm}
+	\begin{block}{How I Manage Windows}
+		In the next section we will discuss configuring Vim, and I'll show how to remap keys. I have rebound splitting and switching windows because I do these actions frequently and I find it annoying to have to press \verb+<C-w>+ every time. I have switching windows bound to \verb+<C-[hjkl]>+ to switch to the window in the indicated direction, and splitting bound to \verb+<SPC> [hjkl]+ (pressed one after another) to split in the indicated direction.
+	\end{block}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Cdo, Ldo, Argdo}
+	\begin{block}{Closing vs Quitting Windows}
+		The difference between \verb+<C-w> c+ and \verb+:q+ is that closing a window leaves the buffer open in memory, and will fail if you try to close the last window open in Vim. In contrast, quitting a window also deletes the current buffer, will close Vim if this is the last window open, and fails if there are unwritten changes to the current buffer. \verb+<C-w> q+ is synonymous with \verb+:q+.
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Tabs}
     \small
+	As stated in Vim's documentation, a tab page is a collection of windows. To create a new tab page run \verb+:tabnew+ (you'll notice the tab bar appears at the top of the window), then you can use \verb+gt+ and \verb+gT+ to go forwards and backwards through your open tab pages. If you have many tab pages open, you can jump to a specific one using \verb+{num}gt+ which jumps to tab page number \verb+{num}+ (as opposed to jumping \verb+{num}+ tab pages forwards as you might expect). Closing the last open window on a tab page also closes the tab page.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Vimgrep}
+    \small
+	If you want to search files by their contents, Vim comes with a built-in grep implementation callable using the \verb+:vimgrep+ command. Vimgrep has the following syntax:\\
+	\begin{verbatim}
+	:vimgrep /{pattern}/ {files}
+	\end{verbatim}
+	The patterns used by vimgrep are the same as those used in Vim when searching and substituting, including all the regular expression goodies. The syntax for specifying files can be looked up using \verb+:help {file}+. Here are the basics which I use most often:
+	\begin{itemize}
+		\item \verb+./foo/bar+ --- paths to files
+		\item \verb+*+ --- wildcards which match anything (including nothing)
+		\item \verb+**+ --- wildcards which match anything (including nothing), and recurses into subdirectories
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Grep}
+    \small
+	The problem with vimgrep is that it reads every file it searches into memory in Vim, which allows it to use the powerful Vim pattern syntax, but makes it quite slow. If you want a faster grep implementation, you can use Vim's \verb+:grep+ command, which interacts with an external grep command specified by the 'grepprg' option. Both vimgrep and grep load their results into a quickfix list. We'll discuss how to use these lists on the next slide.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Quickfix Lists}
+    \small
+	Quickfix lists are Vim's way of showing lists of locations in files. These lists are used by \verb+:vimgrep+ and \verb+:grep+, as well as \verb+:make+ which is used for compiling files then showing errors, and several plugins. You can open the quickfix list in a window using the \verb+:copen+ command and close it with \verb+:cclose+. The quickfix list contains one location per line (filename, line + column number and line contents). You can navigate the quickfix list just like any other buffer, and pressing \verb+<CR>+ on a line takes you to that location in the specified file.\\
+	\vspace{0.5cm}
+	There are also commands for jumping between file locations in the quickfix list without navigating the list manually and selecting an entry. You can use the \verb+:cnext+ and \verb+:cprev+ commands to jump to the next and previous locations in the list respectively (I use these frequently enough that they're mappend to \verb+<C-n>+ and \verb+<C-p>+). There are also \verb+:cfirst+ and \verb+:clast+ commands which jump to the start and end of the list.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Cdo}
+    \small
+	One of the killer features of Vim's quickfix lists is the command \verb+:cdo {command}+. This command goes through the files in the quickfix list one-by-one, and executes the provided command on each entry in the quickfix list. This allows you to perform project-wide search and replace by first grepping for your pattern, then running the following combination of commands:
+	\begin{verbatim}
+	:cdo s/{pattern}/{replacement}/g | update
+	\end{verbatim}
+	You need to include the \verb+| update+ portion of the command. In Vim's command-line mode a vertical bar separates two commands to run one-after-another. You need to run update after the command used with \verb+:cdo+, because otherwise Vim will fail to close the current buffer when it changes files. Note, \verb+:update+ is just like \verb+:w[rite]+, but it only writes the file if its contents changed.\\
+\end{frame}
+
+\begin{frame}[fragile]
+	\small
+	\begin{block}{Multiple Quickfix Lists}
+		Vim keeps track of the last 10 quickfix lists, so if you perform another grep or make command you don't lose the previous one's results. To switch to the previous quickfix list, you can execute \verb+:colder+, and to switch to the next one you can run \verb+:cnewer+.\\
+	\end{block}
+	\vspace{0.5cm}
+	Because \verb+:cdo+ can be used with any Vim command, it is extremely flexible. The next slide is an example of a time I used \verb+:cdo+ in my work with BlueCat to perform a task which would have been much more tedious without it:\\
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Cdo With Normal}
+	\small
+	In our Golang repositories, we frequently propagate errors including messages and error codes, so that we can identify what error occurred higher in the callstack. The resulting error message from a chain of these \verb+stacktrace.Propagate+ calls is several error messages concatenated together, so we decided to make the propagated error messages start with lowercase letters, otherwise they just look funny. To convert all existing error messages in the current project to start with lowercase letters (with Vim open in the project's base directory), I ran the following commands $\ast$:
+	\begin{itemize}
+		\item \verb+:vimgrep /stacktrace\.Propagate/ ./**+
+		\item \verb+:cdo exe "norm f\"lvu" | update+
+	\end{itemize}
+	$\ast$ NOTE: I have changed the commands slightly from the originals (posted in the \#vim-geeks channel), so they would work in a vanilla Vim installation without depending upon any files already being open.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Related Topics to Look Into}
+	\small
+	Vim keeps track of several other lists similar to the quickfix list. The argument list keeps track of files provided to Vim from the command line when Vim was started up. It comes with its own \verb+:argdo+ command, and \verb+:next+ and \verb+:prev+ commands, similar to the quickfix list equivalents. For more information, see \verb+:help argument-list+. \\
+	\vspace{0.5cm}
+	Vim also keeps track of lists called \enquote{location lists}, which are window-local quickfix lists. There are equivalent commands to the quickfix list commands which start with \enquote{l} instead of \enquote{c} to use a location list instead of a quickfix list. To read more, see \verb+:help location-list+.\\
+	\vspace{0.5cm}
+	There are many other commands similar to \verb+:cdo+ which act on different sets of lines or buffers. See the help pages for \verb+:bufdo+, \verb+:tabdo+, \verb+:argdo+, \verb+:windo+, \verb+:ldo+, \verb+:cfdo+ and \verb+:lfdo+.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Finding Files Quickly}
     \small
-    NOTE: discuss fuzzy finder and file tree plugins here
+	When I first started using Vim full-time, one of the biggest pain points for me was finding and opening files. Even with tab-completion, I always found \verb+:e+ painfully slow. Vim comes with a file-manager plugin called \verb+netrw+ preinstalled, so that when you open a path which is a directory in Vim, it opens it in netrw so you can navigate to the file you want to open. Even this felt slow. Vim provides a \verb+:find+ command which is actually pretty good when combined with the 'wildmenu' option to turn on tab-completion, but it requires setting the 'path' option correctly, and it doesn't interactively show you matches as you type. I ended up settling on a pair of plugins I have installed, which I think would be sufficient for most Vim users.\\
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Fuzzy Finder}
+	\small
+	Most of the time when I want to open a file, I do so using fzf.vim --- a fuzzy-finder plugin which interfaces with the \verb+fzf+ command-line tool. This plugin provides a \verb+:Files+ command, which lists files recursively from the current directory, then narrows the list as I type. I can select a file to open from the list at any time using \verb+<CR>+, and I can move up or down the list using the arrow keys or \verb+<C-n>+ and \verb+<C-p>+. I also frequently use the \verb+:Rg+ command as an interactive interface for ripgrep to do fast searches of project file contents, and \verb+:Helptags+ to interactively search the names of \verb+:help+ subjects.\\
+	\vspace{0.5cm}
+	Note, I always open my Vim instance in the base directory of the project I'm working on, so that my fzf commands search all the project files. This is also important for my project drawer (discussed on the next slide) because it makes sure the full file tree is displayed.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Project Drawer}
+	\small
+	This is something of a controversial topic in online Vim discussions, but I also like to use a project drawer plugin (to see the argument against this, read \href{http://vimcasts.org/blog/2013/01/oil-and-vinegar-split-windows-and-project-drawer/}{the Vimcasts ``Oil and Vinegar'' article}). I have a keyboard shortcut to toggle my project drawer open and closed, and I have it set to show the location of the current file in the project when I open it. I mainly use this plugin to view the structure of a repository I'm not very familiar with, to quickly switch to another file in the same package, and to quickly create new files without having to type the full file path into an \verb+:e+ command. The project drawer plugin that I use is \href{https://github.com/lambdalisue/fern.vim}{fern.vim}, but \href{https://github.com/preservim/nerdtree}{NERDTree} is definitely the most popular one.
 \end{frame}
 
 \section{Configuration}
@@ -674,18 +789,143 @@
 \end{frame}
 
 \begin{frame}[fragile]
+    \frametitle{The Vimrc}
+	\small
+	Vim's configuration file is located at \verb+~/.vimrc+ or \verb+~/.vim/vimrc+ on Unix systems (neovim's config file is at \verb+~/.config/nvim/init.vim+). This configuration file contains a set of commands which Vim runs every time it starts up. The lines in your vimrc are executed in a special Vim mode called \enquote{ex mode}, which executes commands like the ones you execute in command-line mode, except it executes them one after another without requiring a colon before each command. To read more about ex mode, you can refer to \verb+:help Ex-mode+.
+\end{frame}
+
+\begin{frame}[fragile]
     \frametitle{Setting Options}
     \small
+    Vim has a bunch of options you can either toggle on and off or set values for to change the behaviour of the editor. If you're curious, you can see a quick listing of options Vim accepts at \verb+:help option-list+. To toggle an option on use the command \verb+:set {option}+, to turn it off use \verb+:set no{option}+, and to change the value of a non-boolean option you can use the command \verb+:set {option}={value}+.\\
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Learning About Options}
+    \small
+    On the next slide I'll go over some options I like to have set. This is a very small subset of the options you can set in Vim, so please explore Vim's help files if you want to learn more - a great place to start would be \verb+:help 05.8+ and \verb+:help 05.9+, which are sections in the user manual which deal with options. You can find my full neovim configuration in \href{https://github.com/alec-gibson/dotfiles}{my dotfiles repo hosted on GitHub}.
+    \begin{block}{Looking Up Option Documentation}
+	When you are looking up an option in Vim's help files, the convention is that help topics for options are surrounded with single quotation marks. For example, running \verb+:help undofile+ shows you documentation for the vimscript undofile() function, but \verb+:help 'undofile'+ shows the documentation for the 'undofile' option.
+    \end{block}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Useful Options}
+    \small
+    \begin{enumerate}
+	\item \verb+lazyredraw+: increases performance by stopping Vim from redrawing the screen while executing macros.
+	\item \verb+showmatch+: when the cursor is on a bracket, highlight the matching bracket.
+	\item \verb+smartindent+: automatically indent lines - works well for C-like languages.
+	\item \verb+number+: turn on line numbers.
+	\item \verb+relativenumber+: number lines relative to the current line (useful for \verb+{num}j+ and \verb+{num}k+ to jump a specific number of lines up or down).
+	\item \verb+cursorline+: highlight the current line to make it more visible.
+	\item \verb+undofile+: use persistent undo, so you can close and reopen Vim and still keep the file's undo history.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Options Specifically For Searching}
+    \small
+    \begin{enumerate}
+	\item \verb+ignorecase+: makes Vim ignore case by default when searching.
+	\item \verb+smartcase+: only used in combination with \verb+ignorecase+ - overrides \verb+ignorecase+ if you include a capital letter in your search pattern.
+	\item \verb+incsearch+: highlight search results as you are typing your pattern.
+	\item \verb+hlsearch+: after starting your search, highlight search results (you can disable highlighting for the current search by running \verb+:noh+, and it will turn back on when you search again).
+	\item \verb+inccommand+: \textbf{Neovim Only}, this options lets you see the effects of a \verb+:substitute+ command while you are typing it.
+    \end{enumerate}
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Keybindings}
     \small
+    If you find there's a command, or a sequence of normal mode shortcuts which you run frequently, you can bind it to a keymapping to make it faster. The simplest command for setting up a custom keymapping is the \verb+:map+ command which uses the following syntax:\\
+    \begin{verbatim}
+    :map {lhs} {rhs}
+    \end{verbatim}
+    For example, if you wanted to remap \verb+gw+ so that it saves the currently file, you could put the following line into your vimrc:\\
+    \begin{verbatim}
+    map gw :w<cr>
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{You Usually Shouldn't Use :map}
+    \small
+    The \verb+:map+ command has a couple major flaws:\\
+    \begin{itemize}
+	\item The keybinding is recursive, meaning if any of the keys in the \verb+{rhs}+ of the mapping are themselves the \verb+{lhs}+ of another mapping, that keymapping will also be applied.
+	\item The keybinding it sets up applies in every Vim mode. Usually this is not what you want, because the \verb+{rhs}+ of your mapping will usually be mode-specific.
+    \end{itemize}
+    To solve the first issue, Vim provides a \verb+:noremap+ command which behaves exactly like \verb+:map+ but ignores any keymappings in the \verb+{rhs}+. To solve the second issue, Vim allows you to add prefixes to specify what mode the keymapping applies in, for example \verb+:nmap+ for normal mode, \verb+:imap+ for insert mode and \verb+:cmap+ for command-line mode. Both of these can be (and often should be) combined, for example in the \verb+:nnoremap+, \verb+:inoremap+ and \verb+:cnoremap+ commands. Most of the time, \verb+:nnoremap+ is the command you should be using for remapping keys in normal mode.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{The Leader Key}
+    \small
+    Many people find it convenient to start many of their custom keybindings with a common prefix. To facilitate this, Vim allows you to set a \enquote{leader} key by setting a variable called \enquote{mapleader}. The following command which sets my leader key to \verb+<SPC>+ is in my neovim config file:\\
+    \begin{verbatim}
+    let mapleader = " "
+    \end{verbatim}
+    After setting this variable, the leader key can be referred to as \verb+<leader>+ in keymappings. For example, I have the following mapping in my neovim configuration to map \verb+<SPC> e+ to run the \verb+:Files+ command from the fzf plugin, to let me find files by name quickly:\\
+    \begin{verbatim}
+    nnoremap <leader>e :Files<cr>
+    \end{verbatim}
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{Abbreviations}
     \small
+    Very similar to mappings, Vim supports a feature called abbreviations, which allow you to set short forms which will expand into their full form after typing a \enquote{non-keyword} character. You can explore setting the 'iskeyword' option, however I just remember that \verb+<SPC>+ and \verb+<CR>+ are both non-keyword characters. This means that, when I type a command-line mode abbreviation, I can just hit \verb+<CR>+ to run it after expanding, or I can type a space if I want to edit the expanded string.\\
+    \vspace{0.5cm}
+    The place where I have found abbreviations most useful is in command-line mode, for long commands which I might sometimes want to edit before running. For example, I have the following abbreviation for running all the Golang tests in the current repository in a tmux split (this uses \href{https://github.com/benmills/vimux}{the vimux plugin} for interacting with another tmux split from inside Vim):\\
+    \begin{verbatim}
+    cnoreabbrev gta exec "call VimuxRunCommand(
+	`cd ".getcwd()." && clear && go test ./pkg/...')"
+    \end{verbatim}
+    (this is all on one line in my config, but had to be split to fit the slide)
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Plugins}
+    \small
+    Sometimes, despite Vim's expansive feature set, there are some features which are nice to have, but are not built into Vim by default. For these features, there is an expansive plugin library available, some of which add features to Vim, and others make Vim's built-in features more accessible.\\
+    \vspace{0.5cm}
+    Vim has a built-in way of managing plugins, which allows you to clone plugins into a particular directory where Vim picks them up and loads them automatically. Personally I have never tried managing plugins in this way --- I adopted \href{https://github.com/junegunn/vim-plug}{vim-plug by junegunn} (the same author who wrote fzf) as my plugin manager quite early on, and it has worked very well for me.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Using Vim-Plug}
+    \small
+    To install vim-plug, you can download a single vimscript file, and put it in Vim's autoload directory (\verb+~/.vim/autoload+ by default on unix systems). Once vim-plug is installed, you can make a list of plugins for vim-plug to manage in your vimrc. Here is an example to show the syntax:\\
+    \begin{verbatim}
+call plug#begin()
+    Plug `morhetz/gruvbox'
+    Plug `lambdalisue/fern.vim'
+    ...
+call plug#end()
+    \end{verbatim}
+    Each of these plugins correspond with the a username and repository name on GitHub. Once you have set this up in your vimrc, you can use the command \verb+:PlugInstall+ to install all the plugins you have listed, and \verb+:PlugUpdate+ to update all your plugins to their latest versions. If you remove a plugin from the list in your vimrc, you can run \verb+:PlugClean+ to remove unused plugins from your filesystem.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{fugitive.vim}
+    \small
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{fzf.vim}
+    \small
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{coc.nvim}
+    \small
+\end{frame}
+
+\section{Vimscript}
+\begin{frame}[fragile]
+    \frametitle{Vimscript}
+    \tableofcontents[currentsection]
 \end{frame}
 
 \begin{frame}[fragile]
@@ -700,11 +940,6 @@
 
 \begin{frame}[fragile]
     \frametitle{Automatic Commands}
-    \small
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Plugins}
     \small
 \end{frame}
 
