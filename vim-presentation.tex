@@ -910,44 +910,65 @@ call plug#end()
 \begin{frame}[fragile]
     \frametitle{fugitive.vim}
     \small
+    fugitive.vim is one of Vim's most popular plugins, written by one of the most prolific and popular Vim plugin authors --- tpope. This plugin provides an interactive git workflow inside Vim, largely through a single \verb+:G+ command. When run on its own, this command opens a split window which shows the current status of the git repository Vim was opened inside. This status window has several custom keybindings which let you perform convenient git operations:
+    \begin{itemize}
+	\item \verb+<C-n>/<C-p>+: go to the next/previous changed file, or changed hunk inside an expanded file diff
+	\item \verb+=+: expand or collapse the current file diff
+	\item \verb+-+: stage or unstage the file that the cursor is currently over
+	\item \verb+cc+: create a commit containing the staged changes, and start writing the commit message (you can quit the commit window to cancel the commit, or write it to finalize the commit).
+    \end{itemize}
+    This plugin also allows you to view git logs, blames, and execute arbitrary git commands by using the \verb+:G+ command as if it is \verb+git+ on the command line.
 \end{frame}
 
 \begin{frame}[fragile]
     \frametitle{fzf.vim}
     \small
+    fzf.vim is another extremely popular plugin. It provides you with a standard user interface for fuzzily matching entries in a list. This plugin allows you to implement your own custom commands using this fuzzy match feature, however it also comes with several very useful commands out of the box:\\
+    \begin{itemize}
+	\item \verb+:Files+: open a file by fuzzily matching filenames enumerated recursively from Vim's base directory
+	\item \verb+:Rg+: fuzzily search the results of a \verb+ripgrep+ command (ripgrep is a trendy modern implementation of grep which is very fast)
+	\item \verb+:Helptags+: fuzzily search tags for topics in Vim's help files
+	\item \verb+:Buffers+: swap buffers by fuzzily matching the names of open files
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{coc.nvim}
+    \frametitle{Language Server Protocol}
     \small
+    For a long time, there has been a lively debate online regarding whether Vim can really replace an IDE, because of its lack of some language-specific features such as automatic imports, jumping to symbol definitions / references / interface implementations, autocompletion, the ability to view documentation, etc.\\
+    \vspace{0.5cm}
+    As part of the development of Visual Studio Code, Microsoft developed the Language Server Protocol, which was standardized in 2016. This protocol allows text editors to be decoupled from language support. All the editor needs is the ability to act as an LSP client, then it can interact with separate language servers, which provide support for a particular language.\\
+    \vspace{0.5cm}
+    Currently \verb+coc.nvim+ is the most popular LSP client implementation for Vim and Neovim. It is unique compared to other LSP client implementations in that it also supports \enquote{coc extensions}, which are forked directly from VSCode extensions. These extensions can provide more features than the community maintained language servers. If you want IDE-like autocompletion and language-specific features in Vim, \verb+coc.nvim+ is currently the easiest way to achieve this.
 \end{frame}
 
-\section{Vimscript}
-\begin{frame}[fragile]
-    \frametitle{Vimscript}
-    \tableofcontents[currentsection]
-\end{frame}
+\section{Further Learning}
 
 \begin{frame}[fragile]
-    \frametitle{Functions}
+    \frametitle{Useful Topics Not Covered}
     \small
+    Unfortunately, there is not enough time in this presentation to cover all of Vim's features, or even all the features I use. The following topics are still very useful to know about, despite not fitting into my talk.
+    \begin{itemize}
+	\item Marks (\verb+:help 03.10+)
+	\item Vimscript (warning, this one is long: \verb+:help usr_41.txt+)
+	\item Write and execute your own functions (\verb+:help user-functions+, \verb+:help :call+)
+	\item Creating custom commands (\verb+:help user-commands+)
+	\item Autocommmands (\verb+:help 40.3+)
+    \end{itemize}
+    If you want to have your mind blown by a Vim plugin, check out \href{https://github.com/puremourning/vimspector}{vimspector}, which uses multiple Vim windows to create a full IDE-like debugger inside Vim.
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Custom Commands}
+    \frametitle{Links For Further Learning}
     \small
-\end{frame}
-
-\begin{frame}[fragile]
-    \frametitle{Automatic Commands}
-    \small
-\end{frame}
-
-\section{Links for Further Learning}
-
-\begin{frame}[fragile]
-    \frametitle{Links for Further Learning}
-    \small
+    I have found the following resources useful while learning to use Vim. Consider taking a look if you feel like learning new Vim features, or gaining a new perspective on features you already know about.
+    \begin{itemize}
+	\item Max Cantor's talk \href{https://www.youtube.com/watch?v=XA2WjJbmmoM}{\enquote{How to Do 90\% of What Plugins Do (With Just Vim)}}
+	\item Erik Falor's talk \href{https://www.youtube.com/watch?v=MquaityA1SM}{\enquote{From Vim Muggle to Wizard in 10 Easy Steps}}
+	\item Chris Toomey's talk \href{https://www.youtube.com/watch?v=wlR5gYd6um0&t=132s}{\enquote{Mastering the Vim Language}}
+	\item Drew Neil's book Practical Vim and the content on his website: \href{http://vimcasts.org}{vimcasts.org}
+	\item Romaine Lafourcade's \href{https://gist.github.com/romainl/4b9f139d2a8694612b924322de1025ce}{Vim-related GitHub gists}, and the articles from his Vim-themed online advent calendar: \href{https://vimways.org/2019/}{Vimways}
+    \end{itemize}
 \end{frame}
 
 \section{Goodbye}
