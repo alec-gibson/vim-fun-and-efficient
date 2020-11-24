@@ -146,7 +146,7 @@
 	\item Finally, to exit Vim type \verb+:q<CR>+.
     \end{itemize}
     \begin{block}{What's That CR Symbol?}
-	\verb+<CR>+ is how you represent the Enter/Return key in Vim keybindings.
+	\verb+<CR>+ stands for Carriage Return, and is how you represent the Enter/Return key in Vim keybindings.
     \end{block}
     \begin{block}{Popular Variants}
 	Popular variants of these commands include \verb+:wq<CR>+ to save and quit, and \verb+:wq!<CR>+ to force Vim to save and quit (ignoring any warnings while doing so).
@@ -285,7 +285,7 @@
 	\item \verb+d+:  delete
 	\item \verb+c+:  change (delete, then enter insert mode)
 	\item \verb+y+:  yank (copy)
-	\item \verb+<+/\verb+>+:  increase / decrease indent
+	\item \verb+<+/\verb+>+:  decrease / increase indent
 	\item \verb+=+:  format (works well for C-style languages, but is configurable)
     \end{itemize}
 \end{frame}
@@ -392,7 +392,7 @@
     \end{block}
     You can undo the most recent edit by pressing \verb+u+, and you can press \verb+u+ multiple times to continue undoing edits. An example of a single \enquote{edit} in Vim would be a single operator + motion combination. Everything you type from pressing \verb+i+ to enter insert mode until returning to normal mode is considered a single edit, so pressing \verb+u+ once will undo all of it.\\
     \vspace{0.5cm}
-    You can press \verb+<C-r>+ to "redo" the most recently undone edit. Like with \verb+u+, you can repeatedly press \verb+<C-r>+ to redo more undone edits.\\
+    You can press \verb+<C-r>+ to \enquote{redo} the most recently undone edit. Like with \verb+u+, you can repeatedly press \verb+<C-r>+ to redo more undone edits.\\
     \vspace{0.5cm}
     If you accidentally undo too much then edit the document, it is still possible to recover - Vim keeps track of your branching undos. We'll discuss this later in the Vim Power Tools section when we discuss the Undo Tree.
 \end{frame}
